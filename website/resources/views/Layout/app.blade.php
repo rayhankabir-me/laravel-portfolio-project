@@ -2,14 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-    <title>Laravel Portfolio Website</title>
-
+    <title>@yield('title')</title>
     <meta name="description" content="Let's make your dream website with rkDynamic">
     <meta name="keywords" content="Let's make your dream website with rkDynamic">
     <meta name="author" content="rkDynamic">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
- 
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" >
     <link href="{{asset('css/custom.css')}}" rel="stylesheet" >
     <link href="{{asset('css/responsive.css')}}" rel="stylesheet" >
@@ -19,6 +17,14 @@
 </head>
 <body>
     
+
+    @include('Layout.menu')
+
+    
+
+
+    @yield('content')
+
 
 
     <script type="text/javascript" src="{{asset('js/jquery-3.4.1.min.js')}}"></script>
