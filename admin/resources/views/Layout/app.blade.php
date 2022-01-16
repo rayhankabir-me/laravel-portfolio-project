@@ -20,6 +20,8 @@
 
 	@yield('content')
 
+	@yield('script')
+
 
 
 
@@ -38,7 +40,9 @@
 	<script src="{{asset('js/custom.min-2.js')}}"></script>
 	<script src="{{asset('js/datatables.min.js')}}"></script>
 	<script src="{{asset('js/datatables-select.min.js')}}"></script>
-	<script src="{{asset('js/custom.js')}}"></script>
 	<script src="{{asset('js/axios.min.js')}}"></script>
+		<script src="{{asset('js/custom.js')}}"></script>
+
+	@yield('script')
 </body>
 </html>
