@@ -261,3 +261,308 @@ function addServiceData(serviceName, serviceDesc, imageUrl) {
             toastr.error('Something Went Wrong!');
         })
 }
+
+
+
+
+
+//admin panel courses section javascript
+
+
+/*......get courses data.......*/
+
+
+function getCoursesData(){
+
+    axios.get('/getCoursesData').then(function(response){
+
+        if(response.status == 200){
+
+
+            $('#CourseDataTable').DataTable().destroy();
+            $('.coursesTable').empty();
+            $('.course-spninner').addClass('d-none');
+            let coursesData = response.data;
+
+            
+
+            $.each(coursesData, function(i, item){
+
+                $('<tr>').html('<th class="th-sm">'+ coursesData[i].course_name +'</th><th class="th-sm">'+ coursesData[i].course_fee +'</th><th class="th-sm">'+ coursesData[i].course_totalenroll +'</th><th class="th-sm">'+ coursesData[i].course_totalclass +'</th><th class="th-sm"><a class="courseViewDetailsBtn" data-id='+ coursesData[i].id +' ><i class="fas fa-eye"></i></a></th><th class="th-sm"><a class="courseEditBtn" data-id='+ coursesData[i].id +' ><i class="fas fa-edit"></i></a></th><th class="th-sm"><a class="courseDeleteBtn" data-id='+ coursesData[i].id +' ><i class="fas fa-trash-alt"></i></a></th>').appendTo('.coursesTable');
+
+
+            /*.......Course Delete Button On Click Event..........*/
+
+            $('.courseDeleteBtn').click(function() {
+                let courseId = $(this).data('id');
+
+                $('#courseDeleteId').val(courseId);
+
+                $('#CourseDeleteModal').modal('show');
+            });
+
+
+            /*.......Course Edit Button On Click Event..........*/
+
+            $('.courseEditBtn').click(function() {
+                let editCourseID = $(this).data('id');
+
+                $('#editCourseIdvalue').val(editCourseID);
+                singleCoursesData(editCourseID);
+                $('#editCourseModal').modal('show');
+            });
+
+
+            /*...building data table....*/
+            $('#CourseDataTable').DataTable();
+            $('.dataTables_length').addClass('bs-select');
+
+
+            })
+        }else{
+
+            $('.course-spninner').addClass('d-none');
+            $('.course_error-container').removeClass('d-none');
+        }
+    })
+
+    .catch(function(error){
+
+            $('.course-spninner').addClass('d-none');
+            $('.course_error-container').removeClass('d-none');
+        
+    })
+}
+
+
+/*......add courses data........*/
+
+
+$('#addNewCourseBTn').click(function() {
+
+    let coursename = $('#CourseNameId').val("");
+    let coursedesc = $('#CourseDesId').val("");
+    let coursefee = $('#CourseFeeId').val("");
+    let courseenroll = $('#CourseEnrollId').val("");
+    let courseclass = $('#CourseClassId').val("");
+    let courselink = $('#CourseLinkId').val("");
+    let courseimg = $('#CourseImgId').val("");
+
+    $('#addCourseModal').modal('show');
+
+
+
+});
+
+
+
+$('#CourseAddConfirmBtn').click(function() {
+
+    $(this).html("<div class='spinner-border spinner-border-sm' role='status'>");
+
+
+    let coursename = $('#CourseNameId').val();
+    let coursedesc = $('#CourseDesId').val();
+    let coursefee = $('#CourseFeeId').val();
+    let courseenroll = $('#CourseEnrollId').val();
+    let courseclass = $('#CourseClassId').val();
+    let courselink = $('#CourseLinkId').val();
+    let courseimg = $('#CourseImgId').val();
+    addCoursesData(coursename, coursedesc, coursefee, courseenroll, courseclass, courselink, courseimg);
+
+
+});
+
+
+function addCoursesData(coursename, coursedesc, coursefee, courseenroll, courseclass, courselink, courseimg) {
+
+
+
+    axios.post('/addCourses', {
+            coursename: coursename,
+            coursedesc: coursedesc,
+            coursefee: coursefee,
+            courseenroll: courseenroll,
+            courseclass: courseclass,
+            courselink: courselink,
+            courseimg: courseimg,
+        })
+        .then(function(response) {
+
+
+
+            if (response.status == 200) {
+
+                if (response.data == 1) {
+
+                    $('#addCourseModal').modal('hide');
+                    getCoursesData();
+                    toastr.success('Course Item Added Successfully');
+
+                    $('#CourseAddConfirmBtn').html("Save");
+
+                } else {
+                    $('#addCourseModal').modal('hide');
+                    toastr.error('Data Save Failed');
+                }
+
+            } else {
+
+                $('#addCourseModal').modal('hide');
+                toastr.error('Data Save Failed');
+
+            }
+
+
+        })
+        .catch(function(error) {
+            toastr.error('Something Went Wrong!');
+        })
+}
+
+
+
+
+/*.........Course Delete Data.......*/
+
+$('#courseDeleteConfirmatinBtn').click(function() {
+
+    $('#CourseDeleteModal').modal('hide');
+
+    deleteCourseData();
+
+    function deleteCourseData() {
+
+
+        let inputID = $('#courseDeleteId').val();
+
+        axios.post('/deleteCoursesData', {
+                id: inputID,
+            })
+            .then(function(response) {
+
+                if (response.data == 1) {
+
+                    toastr.success('Data Deleted Successfully');
+                    getCoursesData();
+                } else {
+                    toastr.error('Data Delete Failed');
+                }
+
+            })
+            .catch(function(error) {
+                toastr.error('Something Went Wrong!');
+            });
+    }
+
+});
+
+
+
+/*......Get Single Course Data For Update Form..........*/
+
+function singleCoursesData(courseId) {
+
+    axios.post('/singleCoursesData', {
+        id: courseId,
+    }).then(function(response) {
+
+        let jsonData = response.data;
+
+        if (response.status == 200) {
+
+
+            $('.editCourse-spinner').addClass('d-none');
+            $('.edit-error').addClass('d-none');
+
+            $('#CourseEditNameId').val(jsonData[0].course_name);
+            $('#CourseEditDesId').val(jsonData[0].course_desc);
+            $('#CourseEditFeeId').val(jsonData[0].course_fee);
+            $('#CourseEditEnrollId').val(jsonData[0].course_totalenroll);
+            $('#CourseEditClassId').val(jsonData[0].course_totalclass);
+            $('#CourseEditLinkId').val(jsonData[0].course_link);
+            $('#CourseEditImgId').val(jsonData[0].course_img);
+        } else {
+
+            $('.editCourse-spinner').addClass('d-none');
+            $('.editCourse-error').removeClass('d-none');
+
+        }
+
+    }).catch(function(error) {
+
+        $('.editCourse-spinner').addClass('d-none');
+        $('.editCourse-error').removeClass('d-none');
+    })
+
+
+}
+
+
+
+/*........admin panel update services data.......*/
+
+$('#CourseEditConfirmBtn').click(function() {
+
+    $(this).html("<div class='spinner-border spinner-border-sm' role='status'>");
+
+    let courseEditId = $('#editCourseIdvalue').val();
+    let CourseEditNameId = $('#CourseEditNameId').val();
+    let CourseEditDesId = $('#CourseEditDesId').val();
+    let CourseEditFeeId = $('#CourseEditFeeId').val();
+    let CourseEditEnrollId = $('#CourseEditEnrollId').val();
+    let CourseEditClassId = $('#CourseEditClassId').val();
+    let CourseEditLinkId = $('#CourseEditLinkId').val();
+    let CourseEditImgId = $('#CourseEditImgId').val();
+    
+    updateCoursesData(courseEditId, CourseEditNameId, CourseEditDesId, CourseEditFeeId, CourseEditEnrollId, CourseEditClassId, CourseEditLinkId, CourseEditImgId);
+
+
+});
+
+
+function updateCoursesData(courseEditId, CourseEditNameId, CourseEditDesId, CourseEditFeeId, CourseEditEnrollId, CourseEditClassId, CourseEditLinkId, CourseEditImgId) {
+
+
+
+    axios.post('/updateCoursesData', {
+            courseid: courseEditId,
+            coursename: CourseEditNameId,
+            coursedesc: CourseEditDesId,
+            coursefee: CourseEditFeeId,
+            courseenroll: CourseEditEnrollId,
+            courseclass: CourseEditClassId,
+            courselink: CourseEditLinkId,
+            courseimg: CourseEditImgId,
+        })
+        .then(function(response) {
+
+
+
+            if (response.status == 200) {
+
+                if (response.data == 1) {
+
+                    $('#editCourseModal').modal('hide');
+                    getCoursesData();
+                    toastr.success('Data Updated Successfully');
+                    $('#CourseEditConfirmBtn').html("Save");
+
+                } else {
+                    $('#editCourseModal').modal('hide');
+                    toastr.error('Data Update Failed');
+                }
+
+            } else {
+
+                $('#editCourseModal').modal('hide');
+                toastr.error('Data Update Failed');
+
+            }
+
+
+        })
+        .catch(function(error) {
+            toastr.error('Something Went Wrong!');
+        })
+}
