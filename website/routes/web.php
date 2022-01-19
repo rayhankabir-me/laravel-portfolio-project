@@ -15,3 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'HomeIndex']);
+
+/*home Contact form submit*/
+Route::post('/homeContact', [HomeController::class, 'ContactSubmit']);

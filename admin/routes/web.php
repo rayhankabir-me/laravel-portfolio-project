@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\CoursesController;
+use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\ContactsController;
 
 
 /*
@@ -38,3 +40,20 @@ Route::post('/deleteCoursesData', [CoursesController::class, 'CoursesDelete']);
 Route::post('/singleCoursesData', [CoursesController::class, 'singleCoursesData']);
 Route::post('/updateCoursesData', [CoursesController::class, 'CoursesUpdate']);
 Route::post('/addCourses', [CoursesController::class, 'addCourses']);
+
+
+//projects data routes........
+
+
+Route::get('/projects', [ProjectsController::class, 'ProjectIndex']);
+Route::get('/getProjectsData', [ProjectsController::class, 'getProjectsData']);
+Route::post('/deleteProjectsData', [ProjectsController::class, 'ProjectsDelete']);
+Route::post('/singleProjectsData', [ProjectsController::class, 'singleProjectsData']);
+Route::post('/updateProjectsData', [ProjectsController::class, 'ProjectsUpdate']);
+Route::post('/addProjects', [ProjectsController::class, 'addProjects']);
+
+
+//contacts data routes
+Route::get('/contacts', [ContactsController::class, 'ContactIndex']);
+Route::get('/getContactsData', [ContactsController::class, 'getContactsData']);
+Route::post('/deleteContactsData', [ContactsController::class, 'ContactsDelete']);
