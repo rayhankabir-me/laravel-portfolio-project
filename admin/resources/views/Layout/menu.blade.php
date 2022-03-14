@@ -24,6 +24,7 @@
                         <li> <a href="{{url('/courses')}}" ><span> <i class="fas fa-user-graduate"></i> </span><span class="hide-menu">Courses</span></a></li>
                         <li> <a href="{{url('/projects')}}" ><span> <i class="fas fa-code"></i> </span><span class="hide-menu">Projects</span></a></li>
                         <li> <a href="{{url('/contacts')}}" ><span> <i class="fas fa-comment"></i> </span><span class="hide-menu">Contacts</span></a></li>
+                        <li> <a href="{{url('/testimonials')}}" ><span> <i class="fas fa-award"></i> </span><span class="hide-menu">Testimonials</span></a></li>
 
 					</ul>
                 </nav>

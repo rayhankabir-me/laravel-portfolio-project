@@ -6,6 +6,7 @@ use App\Models\ContactsModel;
 use App\Models\CoursesModel;
 use App\Models\ProjectsModel;
 use App\Models\ServicesModel;
+use App\Models\TestimonialsModel;
 use App\Models\VisitorModel;
 use Illuminate\Http\Request;
 
@@ -30,10 +31,13 @@ class HomeController extends Controller
 
         $projectsData = ProjectsModel::orderBy('id', 'desc')->take(8)->get();
 
+        $testimonialsData = TestimonialsModel::orderBy('id', 'desc')->take(4)->get();
+
         return view('home',[
             'servicesData'=>$servicesData,
             'coursesData' => $coursesData,
-            'projectsData'=>$projectsData
+            'projectsData'=>$projectsData,
+            'testimonialsData'=>$testimonialsData
         ]);
     }
 

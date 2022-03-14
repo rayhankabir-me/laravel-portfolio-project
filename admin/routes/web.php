@@ -57,3 +57,13 @@ Route::post('/addProjects', [ProjectsController::class, 'addProjects']);
 Route::get('/contacts', [ContactsController::class, 'ContactIndex']);
 Route::get('/getContactsData', [ContactsController::class, 'getContactsData']);
 Route::post('/deleteContactsData', [ContactsController::class, 'ContactsDelete']);
+
+
+//testimonials data routes
+
+Route::get('/testimonials', [ProjectsController::class, 'ProjectIndex']);
+// Route::get('/getProjectsData', [ProjectsController::class, 'getProjectsData']);
+// Route::post('/deleteProjectsData', [ProjectsController::class, 'ProjectsDelete']);
+// Route::post('/singleProjectsData', [ProjectsController::class, 'singleProjectsData']);
+// Route::post('/updateProjectsData', [ProjectsController::class, 'ProjectsUpdate']);
+// Route::post('/addProjects', [ProjectsController::class, 'addProjects']);
